@@ -1,0 +1,51 @@
+name: Release
+
+# Push a tag like v1.0.0 (after bumping gcodefix/__init__.py and CHANGELOG.md) to publish a release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tag matches the code version
+        run: |
+          code=$(python -c "import gcodefix; print(gcodefix.__version__)")
+          if [ "v$code" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match gcodefix.__version__ ($code)"; exit 1
+          fi
+
+      - name: Tests
+        run: python -m unittest discover -s tests -t . -v
+
+      - name: Release notes from CHANGELOG
+        run: |
+          ver="${GITHUB_REF_NAME#v}"
+          awk -v v="$ver" '
+            $0 ~ "^## \\[" v "\\]" { p=1; next }
+            p && /^## \[/ { exit }
+            p { print }
+          ' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then echo "No CHANGELOG entry for $ver"; exit 1; fi
+
+      - name: Build tarball
+        run: |
+          name="anycubic-gcodefix-${GITHUB_REF_NAME#v}"
+          git archive --format=tar.gz --prefix="$name/" -o "$name.tar.gz" "$GITHUB_REF_NAME"
+          sha256sum "$name.tar.gz" > "$name.tar.gz.sha256"
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" anycubic-gcodefix-*.tar.gz anycubic-gcodefix-*.tar.gz.sha256 \
+            --title "Anycubic GcodeFix ${GITHUB_REF_NAME#v}" --notes-file notes.md

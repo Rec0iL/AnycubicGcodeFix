@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# G-code: test prints and converted output never belong in the repo
+*.gcode
+*.gco
+*.gc
+*.bgcode
+*_anycubic*
+*.part
+
+# Build / release output
+dist/
+build/
+*.tar.gz
+*.zip
+*.sha256
+
+# Editors, OS, local tooling
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+.claude/
+graphify-out/
+
+# Qt Creator / QML caches
+*.qmlc
+*.jsc
+*.user

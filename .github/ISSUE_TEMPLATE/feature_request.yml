@@ -1,0 +1,15 @@
+name: Feature request / new printer
+description: Suggest an improvement or ask for another Anycubic model
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: For a new printer model
+      description: A small G-code file that printer accepts, straight from AnycubicSlicerNext (head + tail is enough), makes adding a profile easy.

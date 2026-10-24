@@ -1,0 +1,36 @@
+name: Bug report
+description: A file was converted wrongly, the printer still refuses it, or the app misbehaves
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, what did you get? Copy the exact message from the app or the printer.
+    validations:
+      required: true
+  - type: input
+    id: printer
+    attributes:
+      label: Printer + firmware
+      placeholder: Anycubic Kobra S1, firmware 1.x.x
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Where did the G-code come from?
+      placeholder: FullControl / OrcaSlicer 2.x / PrusaSlicer / Cura / hand-written …
+    validations:
+      required: true
+  - type: textarea
+    id: head
+    attributes:
+      label: First ~40 lines of the original file
+      description: Please do NOT attach whole files unless asked. The start and the last ~20 lines are usually enough.
+      render: gcode
+  - type: input
+    id: version
+    attributes:
+      label: GcodeFix version + install method
+      placeholder: 1.0.0, ./install.sh --link
