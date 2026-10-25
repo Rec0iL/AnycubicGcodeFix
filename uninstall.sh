@@ -21,18 +21,21 @@ if [[ "$MODE" == "system" ]]; then
     [[ $EUID -eq 0 ]] || { echo "--system needs root: sudo $0 --system" >&2; exit 1; }
     PREFIX="/usr/local"
     APP_DIR="$PREFIX/share/anycubic-gcodefix"
+    VENV_DIR="$PREFIX/share/anycubic-gcodefix-venv"
     BIN_DIR="$PREFIX/bin"
     APPS_DIR="$PREFIX/share/applications"
     ICON_DIR="$PREFIX/share/icons/hicolor/scalable/apps"
 else
     DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
     APP_DIR="$DATA_HOME/anycubic-gcodefix"
+    VENV_DIR="$DATA_HOME/anycubic-gcodefix-venv"
     BIN_DIR="$HOME/.local/bin"
     APPS_DIR="$DATA_HOME/applications"
     ICON_DIR="$DATA_HOME/icons/hicolor/scalable/apps"
 fi
 
 rm -rf "$APP_DIR"                       # a symlink (--link install) is removed, not followed
+rm -rf "$VENV_DIR"                      # only exists after ./install.sh --venv
 rm -f  "$BIN_DIR/anycubic-gcodefix" "$APPS_DIR/anycubic-gcodefix.desktop" "$ICON_DIR/anycubic-gcodefix.svg"
 
 command -v update-desktop-database >/dev/null && update-desktop-database "$APPS_DIR" 2>/dev/null || true

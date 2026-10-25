@@ -91,6 +91,17 @@ class FixerTests(unittest.TestCase):
             second = fixer.convert(src, d, fixer.Options())      # name collision -> renamed
             self.assertEqual(second.output.name, "part_anycubic (2).gcode")
 
+    def test_crlf_input_and_lf_output(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            src = d / "win.gcode"
+            src.write_bytes(SRC.replace("\n", "\r\n").encode())
+            res = fixer.convert(src, d, fixer.Options())
+            self.assertEqual(res.status, "done")
+            data = res.output.read_bytes()
+            self.assertNotIn(b"\r", data)
+            self.assertIn(b"G9111 bedTemp=60 extruderTemp=245\n", data)
+
     def test_binary_gcode_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             f = Path(d) / "x.gcode"

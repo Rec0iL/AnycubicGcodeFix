@@ -53,21 +53,23 @@ Files already in Anycubic format are skipped. The original is never touched: out
 
 ## Install / run
 
-Grab the tarball from the [latest release](https://github.com/Rec0iL/AnycubicGcodeFix/releases/latest) (checksum included), or clone the repo, then:
+Download the `.zip` (Windows) or `.tar.gz` (macOS / Linux) from the [latest release](https://github.com/Rec0iL/AnycubicGcodeFix/releases/latest),
+unpack it, then:
+
+| | Install | Try without installing |
+|---|---|---|
+| **Windows** 10/11 | double-click `install-windows.bat` | `run-windows.bat` |
+| **macOS** 11+ | `./install-macos.sh` | `python3 main.py` |
+| **Linux** Fedora / Nobara | `sudo dnf install python3-pyside6` then `./install.sh` | `python3 main.py` |
+| **Linux** Arch / Manjaro | `sudo pacman -S pyside6` then `./install.sh` | `python3 main.py` |
+| **Linux** Ubuntu / Debian / Mint / openSUSE / other | `./install.sh --venv` | `python3 main.py` |
+
+Step-by-step instructions per system (Python, prerequisites, uninstall, troubleshooting): **[INSTALL.md](INSTALL.md)**.
+Requires Python 3.10+; the installers fetch PySide6 for you where needed.
 
 ```bash
-./install.sh                 # per-user: ~/.local (menu entry + icon + `anycubic-gcodefix` command)
-./install.sh --link          # per-user, symlinked to this checkout (development)
-sudo ./install.sh --system   # system-wide: /usr/local
-./uninstall.sh [--system] [--purge]
-```
-
-Needs PySide6 (Fedora/Nobara: `sudo dnf install python3-pyside6`, or `pip install -r requirements.txt`).
-
-```bash
-python3 main.py [files…]                    # GUI
-python3 -m gcodefix.cli file.gcode [--out DIR]   # no GUI
-python3 -m unittest discover -s tests -t .  # tests
+python3 -m gcodefix.cli file.gcode [--out DIR]      # no GUI, no dependencies
+python3 -m unittest discover -s tests -t .          # tests
 ```
 
 ## Settings

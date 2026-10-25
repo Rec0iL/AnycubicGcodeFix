@@ -3,11 +3,24 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import time
 from pathlib import Path
 from typing import Any
 
-CONFIG_DIR = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")) / "AnycubicGcodeFix"
+
+def config_dir() -> Path:
+    """Linux: ~/.config  |  macOS: ~/Library/Application Support  |  Windows: %APPDATA%"""
+    if sys.platform == "win32":
+        base = Path(os.environ.get("APPDATA") or Path.home() / "AppData" / "Roaming")
+    elif sys.platform == "darwin":
+        base = Path.home() / "Library" / "Application Support"
+    else:
+        base = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+    return base / "AnycubicGcodeFix"
+
+
+CONFIG_DIR = config_dir()
 
 DEFAULTS: dict[str, Any] = {
     "material": "auto",          # auto | PLA | PETG | ABS | TPU

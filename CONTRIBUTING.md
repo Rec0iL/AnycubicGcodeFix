@@ -10,6 +10,7 @@ git clone https://github.com/Rec0iL/AnycubicGcodeFix && cd AnycubicGcodeFix
 pip install -r requirements.txt        # PySide6 (GUI only; the converter is pure Python)
 python3 main.py                        # run the app
 python3 -m unittest discover -s tests -t .
+QT_QPA_PLATFORM=offscreen python3 tests/smoke_qml.py   # loads the real UI headlessly
 ```
 
 ## Layout
@@ -21,6 +22,7 @@ python3 -m unittest discover -s tests -t .
 | `gcodefix/thumbnail.py` | pure-Python toolpath → PNG renderer |
 | `gcodefix/backend.py`, `worker.py` | Qt glue: job queue + background thread |
 | `qml/`, `shaders/` | UI. Recompile the shader after editing (see README) |
+| `install*.sh`, `*-windows.*`, `install-macos.sh` | per-OS installers (see `INSTALL.md`); `packaging/make_icons.py` rebuilds the `.ico` / `.icns` |
 
 ## Adding a printer
 

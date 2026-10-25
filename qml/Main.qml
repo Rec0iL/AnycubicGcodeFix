@@ -40,13 +40,13 @@ ApplicationWindow {
         title: "Choose G-code files"
         fileMode: FileDialog.OpenFiles
         nameFilters: ["G-code (*.gcode *.gco *.gc *.g)", "All files (*)"]
-        currentFolder: win.s.lastDir !== "" ? "file://" + win.s.lastDir : ""
+        currentFolder: backend.toFileUrl(win.s.lastDir)
         onAccepted: backend.addUrls(selectedFiles.map(u => u.toString()))
     }
     FolderDialog {
         id: folderPicker
         title: "Choose a folder with G-code"
-        currentFolder: win.s.lastDir !== "" ? "file://" + win.s.lastDir : ""
+        currentFolder: backend.toFileUrl(win.s.lastDir)
         onAccepted: backend.addUrls([selectedFolder.toString()])
     }
 

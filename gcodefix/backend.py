@@ -261,3 +261,7 @@ class Backend(QObject):
     @Slot(str, result=str)
     def toLocalPath(self, url: str) -> str:  # noqa: N802
         return QUrl(url).toLocalFile()
+
+    @Slot(str, result=str)
+    def toFileUrl(self, path: str) -> str:  # noqa: N802
+        return QUrl.fromLocalFile(path).toString() if path else ""

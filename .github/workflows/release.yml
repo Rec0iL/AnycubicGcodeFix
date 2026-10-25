@@ -41,11 +41,19 @@ jobs:
         run: |
           name="anycubic-gcodefix-${GITHUB_REF_NAME#v}"
           git archive --format=tar.gz --prefix="$name/" -o "$name.tar.gz" "$GITHUB_REF_NAME"
-          sha256sum "$name.tar.gz" > "$name.tar.gz.sha256"
+          git archive --format=zip    --prefix="$name/" -o "$name.zip"    "$GITHUB_REF_NAME"   # Windows users
+          sha256sum "$name.tar.gz" "$name.zip" > "$name.sha256"
+
+      - name: Windows scripts have CRLF line endings inside the zip
+        run: |
+          name="anycubic-gcodefix-${GITHUB_REF_NAME#v}"
+          for f in install-windows.bat install-windows.ps1 run-windows.bat; do
+            unzip -p "$name.zip" "$name/$f" | grep -q $'\r' || { echo "$f has no CRLF in the zip"; exit 1; }
+          done
 
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" anycubic-gcodefix-*.tar.gz anycubic-gcodefix-*.tar.gz.sha256 \
+          gh release create "$GITHUB_REF_NAME" anycubic-gcodefix-*.tar.gz anycubic-gcodefix-*.zip anycubic-gcodefix-*.sha256 \
             --title "Anycubic GcodeFix ${GITHUB_REF_NAME#v}" --notes-file notes.md

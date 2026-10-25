@@ -1,6 +1,13 @@
 * text=auto eol=lf
 *.qsb binary
 *.png binary
+*.ico binary
+*.icns binary
+
+# Windows scripts must have CRLF to be safe in cmd.exe / PowerShell 5.1
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+*.sh text eol=lf
 
 # kept out of the release tarball
 .github/ export-ignore

@@ -490,7 +490,8 @@ def convert(src: Path, out_dir: Path, opts: Options, overwrite: str = "rename",
     report(0.92, "Writing…")
     tmp = dest.with_name(dest.name + ".part")
     try:
-        tmp.write_text("\n".join(out_lines) + "\n", encoding="utf-8", errors="surrogateescape")
+        # newline="\n": keep LF like the slicer does (Windows would otherwise write CRLF)
+        tmp.write_text("\n".join(out_lines) + "\n", encoding="utf-8", errors="surrogateescape", newline="\n")
         tmp.replace(dest)
     except OSError as exc:
         tmp.unlink(missing_ok=True)
