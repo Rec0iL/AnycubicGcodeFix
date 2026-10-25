@@ -5,6 +5,11 @@ All notable changes to this project are documented here. Format based on
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-25
+
+Adds Windows and macOS support. The new Windows / macOS installers pass CI but have not been run on real machines yet -
+please [report problems](https://github.com/Rec0iL/AnycubicGcodeFix/issues/new/choose). See [INSTALL.md](INSTALL.md).
+
 ### Added
 - **Windows** support: `install-windows.bat` / `.ps1` (per-user, no admin: Start menu entry + right-click *Send to*),
   `uninstall-windows.bat`, and `run-windows.bat` to run from a folder without installing.
@@ -37,5 +42,6 @@ First release. Verified on an Anycubic Kobra S1 with a FullControl-generated fil
 - Headless CLI: `python3 -m gcodefix.cli`.
 - `install.sh` / `uninstall.sh` (per-user, `--link`, `--system`).
 
-[Unreleased]: https://github.com/Rec0iL/AnycubicGcodeFix/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/Rec0iL/AnycubicGcodeFix/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Rec0iL/AnycubicGcodeFix/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Rec0iL/AnycubicGcodeFix/releases/tag/v1.0.0
